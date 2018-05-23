@@ -18,8 +18,8 @@ Micro Enterprise is a soon to be released turn-key solution for building product
 
 ## Pricing
 
-[Get in touch](mailto:contact@micro.mu)
+See the [website](https://micro.mu/pricing) for details
 
 ## License
 
-This version of Micro will be covered by the Micro Enterprise License Agreement
+This version of Micro will be covered by the [Micro Enterprise License Agreement](LICENSE)
