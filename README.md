@@ -7,7 +7,7 @@ Micro Enterprise is a soon to be released turn-key solution for building product
 Micro Enterprise is an enterprise version of the [micro](https://github.com/micro/micro) toolkit. It includes additional 
 features which are absolutely critical for a stable and performant production grade microservice solution.
 
-This version of Micro require a [Micro Enterprise License Agreement](LICENSE) commercial subscription.
+This version of Micro requires a [Micro Enterprise License Agreement](LICENSE) commercial subscription.
 
 ## Features
 
