@@ -6,9 +6,9 @@ import (
 )
 
 var (
-        name        = "micro"
-        description = "An enterprise cloud-native toolkit"
-        version     = "0.1.0"
+	name        = "micro"
+	description = "An enterprise cloud-native toolkit"
+	version     = "0.1.0"
 )
 
 func main() {
@@ -17,8 +17,8 @@ func main() {
 
 	// initialise command line
 	cmd.Init(
-                cmd.Name(name),
-                cmd.Description(description),
-                cmd.Version(version),
+		cmd.Name(name),
+		cmd.Description(description),
+		cmd.Version(version),
 	)
 }

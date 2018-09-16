@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package enterprise;
+
+// License is the enterprise license
+message License {
+	// unique id
+	string id = 1;
+	// version of license
+	string version = 2;
+	// time of creation
+	uint64 created = 3;
+	// X-Micro-License hash
+	string hash = 4;
+	// subscription
+	Subscription subscription = 5;
+}
+
+// Service is a micro service
+message Service {
+	// name of service
+	string name = 1;
+	// version of service
+	string version = 2;
+	// unique id of instance
+	string id = 3;
+}
+
+// Subscription is a user subscription
+message Subscription {
+	// id of subscription
+	string id = 1;
+	// email of associated
+	string email = 2;
+	// status e.g active
+	string status = 3;
+	// created at
+	uint64 created = 4;
+	// quantity e.g services
+	uint64 quantity = 5;
+}
+
+// Token is for auth
+message Token {
+	// unique id of token
+	string id = 1;
+	// unix timestamp
+	uint64 expires = 2;
+	// various values
+	map<string, string> claims = 3;
+	// encrypted hash
+	string hash = 4;
+}
+
+// Update is a checkpoint
+message Update {
+	// service using license
+	Service service = 1;
+	// license associated
+	License license = 2;
+	// unix timestamp
+	uint64 timestamp = 3;
+}
