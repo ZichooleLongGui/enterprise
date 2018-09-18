@@ -195,6 +195,35 @@ func SetApiToken(tk string) {
 	t = tk
 }
 
+// Verify a token is valid
+func Verify(tk string) error {
+	data := url.Values{
+		"token": {tk},
+	}
+	req, err := http.NewRequest("POST", u+"verify", strings.NewReader(data.Encode()))
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("X-Micro-Token", t)
+	rsp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return err
+	}
+	defer rsp.Body.Close()
+	b, err := ioutil.ReadAll(rsp.Body)
+	if err != nil {
+		return err
+	}
+	if rsp.StatusCode == 401 {
+		return fmt.Errorf(strings.TrimSpace(string(b)))
+	}
+	if rsp.StatusCode != 200 {
+		return fmt.Errorf(strings.TrimSpace(string(b)))
+	}
+	return nil
+}
+
 // New returns a new token
 func New() *Token {
 	return &Token{&p.Token{

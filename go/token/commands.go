@@ -58,6 +58,21 @@ func revoke(ctx *cli.Context) {
 	fmt.Println("Token revoked")
 }
 
+func verify(ctx *cli.Context) {
+	token := ctx.String("token")
+	if len(token) == 0 {
+		fmt.Println("Token is blank (specify --token)")
+		os.Exit(1)
+	}
+
+	// revoke token
+	if err := Verify(token); err != nil {
+		fmt.Println("Verification failed:", err)
+		os.Exit(1)
+	}
+	fmt.Println("Token verified")
+}
+
 func list(ctx *cli.Context) {
 	tokens, err := List()
 	if err != nil {
@@ -74,6 +89,11 @@ func list(ctx *cli.Context) {
 
 func tokenCommands() []cli.Command {
 	return []cli.Command{
+		{
+			Name:   "list",
+			Usage:  "List tokens",
+			Action: list,
+		},
 		{
 			Name:   "generate",
 			Usage:  "Generate an api token (specify --email)",
@@ -96,18 +116,20 @@ func tokenCommands() []cli.Command {
 			Flags: []cli.Flag{
 				cli.StringFlag{
 					Name:  "token",
-					Usage: "Encoded token hash to revoke",
-				},
-				cli.StringFlag{
-					Name:  "id",
-					Usage: "Token ID to for token to revoke",
+					Usage: "Encoded token key to revoke",
 				},
 			},
 		},
 		{
-			Name:   "list",
-			Usage:  "List tokens",
-			Action: list,
+			Name:   "verify",
+			Usage:  "Verify an api token is valid (specify --token)",
+			Action: verify,
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "token",
+					Usage: "Encoded token key to verify",
+				},
+			},
 		},
 	}
 }
