@@ -24,7 +24,7 @@ var (
 	c = time.Date(2018, time.September, 5, 16, 23, 0, 0, time.UTC)
 
 	// license api
-	u = "http://localhost:9091/"
+	u = "https://micro.mu/license/"
 
 	// license version
 	v = "20180905"
@@ -33,7 +33,7 @@ var (
 	t = os.Getenv("MICRO_API_TOKEN")
 
 	// enterprise license
-	l = os.Getenv("MICRO_ENTERPRISE_LICENSE")
+	l = os.Getenv("MICRO_LICENSE_KEY")
 )
 
 // License is the enterprise license
@@ -396,8 +396,8 @@ func Subscriptions() ([]*Subscription, error) {
 	return list, nil
 }
 
-// SetApiToken sets the api token
-func SetApiToken(tk string) {
+// SetToken sets the api token
+func SetToken(tk string) {
 	t = tk
 }
 

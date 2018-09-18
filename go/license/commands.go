@@ -22,7 +22,7 @@ func generate(ctx *cli.Context) {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	fmt.Println("Your license (set as MICRO_ENTERPRISE_LICENSE env var or X-Micro-License http header):")
+	fmt.Println("Your license (set as MICRO_LICENSE_KEY env var or X-Micro-License http header):")
 	fmt.Println(l)
 }
 

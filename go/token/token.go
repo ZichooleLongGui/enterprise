@@ -25,7 +25,7 @@ var (
 	t = os.Getenv("MICRO_API_TOKEN")
 
 	// token api
-	u = "http://localhost:10001/"
+	u = "https://micro.mu/token/"
 )
 
 func (t *Token) Encode(key string) (string, error) {
@@ -186,8 +186,8 @@ func List() ([]*Token, error) {
 	return list["tokens"], nil
 }
 
-// SetApiToken sets the api token
-func SetApiToken(tk string) {
+// SetToken sets the api token
+func SetToken(tk string) {
 	t = tk
 }
 
