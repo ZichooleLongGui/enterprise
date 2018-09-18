@@ -130,6 +130,9 @@ func (l *License) Valid() error {
 	if l.Subscription.Created < uint64(c.Unix()) {
 		return fmt.Errorf("license subscription time %d is invalid", l.Subscription.Created)
 	}
+	if (l.Subscription.Type != "service") && (l.Subscription.Type != "unlimited") {
+		return fmt.Errorf("subscription type invalid")
+	}
 	return nil
 }
 
@@ -202,34 +205,18 @@ func (u *Update) Decode(key string, b []byte) error {
 }
 
 func (u *Update) Valid() error {
+	if len(u.Id) == 0 {
+		return fmt.Errorf("update id is invalid")
+	}
+	if u.Timestamp < uint64(c.Unix()) {
+		return fmt.Errorf("update timestamp is invalid")
+	}
 	if u.Service == nil {
-		return fmt.Errorf("service is nil")
-	}
-	if u.License == nil {
-		return fmt.Errorf("license is nil")
-	}
-	if u.License.Subscription == nil {
-		return fmt.Errorf("subscription is nil")
-	}
-	if u.Timestamp < uint64(c.Unix()) || u.Timestamp < u.License.Created {
-		return fmt.Errorf("update timestamp is invalid")
-	}
-	if u.Timestamp < uint64(c.Unix()) || u.Timestamp < u.License.Created {
-		return fmt.Errorf("update timestamp is invalid")
-	}
-	if len(u.Service.Name) == 0 {
-		return fmt.Errorf("service name is blank")
-	}
-	if len(u.Service.Version) == 0 {
-		return fmt.Errorf("service version is blank")
+		return fmt.Errorf("update service is invalid")
 	}
 
-	ul := &License{u.License}
 	us := &Service{u.Service}
 
-	if err := ul.Valid(); err != nil {
-		return err
-	}
 	if err := us.Valid(); err != nil {
 		return err
 	}
@@ -410,6 +397,14 @@ func SetToken(tk string) {
 // Set license to use on update calls
 func SetLicense(lu string) {
 	l = lu
+}
+
+func NewUpdate() *Update {
+	return &Update{&proto.Update{
+		Id:        uuid.NewUUID().String(),
+		Timestamp: uint64(time.Now().Unix()),
+		Service:   &proto.Service{},
+	}}
 }
 
 func New() *License {

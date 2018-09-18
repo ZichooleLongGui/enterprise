@@ -32,12 +32,14 @@ message Subscription {
 	string id = 1;
 	// email of associated
 	string email = 2;
+	// type of subscription
+	string type = 3;
 	// status e.g active
-	string status = 3;
+	string status = 4;
 	// created at
-	uint64 created = 4;
+	uint64 created = 5;
 	// quantity e.g services
-	uint64 quantity = 5;
+	uint64 quantity = 6;
 }
 
 // Token is for auth
@@ -54,10 +56,10 @@ message Token {
 
 // Update is a checkpoint
 message Update {
-	// service using license
-	Service service = 1;
-	// license associated
-	License license = 2;
+	// unique id for update
+	string id = 1;
 	// unix timestamp
-	uint64 timestamp = 3;
+	uint64 timestamp = 2;
+	// service using license
+	Service service = 3;
 }
