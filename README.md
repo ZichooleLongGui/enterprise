@@ -1,4 +1,4 @@
-# Micro Enterprise <a href="javascript:void(0)" class="btn btn-default" data-cb-type="checkout" data-cb-plan-id="micro-enterprise-support-subscription" data-cb-plan-quantity="1" >Subscribe</a>
+# Micro Enterprise
 
 
 Micro Enterprise is a soon to be released turn-key solution for building production ready cloud-native applications.
