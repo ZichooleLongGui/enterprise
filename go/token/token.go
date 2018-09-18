@@ -4,6 +4,11 @@ package token
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"net/http"
+	"net/url"
+	"os"
+	"strings"
 	"time"
 
 	"github.com/hako/branca"
@@ -13,6 +18,18 @@ import (
 
 type Token struct {
 	*p.Token
+}
+
+var (
+	// api token
+	t = "nil"
+
+	// token api
+	u = "http://localhost:10001/"
+)
+
+func init() {
+	t = os.Getenv("MICRO_API_TOKEN")
 }
 
 func (t *Token) Encode(key string) (string, error) {
@@ -28,7 +45,7 @@ func (t *Token) Encode(key string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	t.Hash = str
+	t.Key = str
 	return str, nil
 }
 
@@ -66,6 +83,119 @@ func (t *Token) Valid() error {
 	return nil
 }
 
+// SendPass sends a one time pass
+func SendPass(email string) error {
+	uri, err := url.Parse(u + "pass?email=" + email)
+	if err != nil {
+		return err
+	}
+	rsp, err := http.Get(uri.String())
+	if err != nil {
+		return err
+	}
+	defer rsp.Body.Close()
+	b, err := ioutil.ReadAll(rsp.Body)
+	if err != nil {
+		return err
+	}
+	if rsp.StatusCode != 200 {
+		return fmt.Errorf(string(b))
+	}
+	return nil
+}
+
+// Generate generates the token
+func Generate(email, pass string) (string, error) {
+	rsp, err := http.PostForm(u+"generate", url.Values{
+		"email": {email},
+		"pass":  {pass},
+	})
+	if err != nil {
+		return "", err
+	}
+	defer rsp.Body.Close()
+	b, err := ioutil.ReadAll(rsp.Body)
+	if err != nil {
+		return "", err
+	}
+	if rsp.StatusCode != 200 {
+		return "", fmt.Errorf(string(b))
+	}
+	var res map[string]interface{}
+	if err := json.Unmarshal(b, &res); err != nil {
+		return "", err
+	}
+	token, _ := res["token"].(string)
+	return token, nil
+}
+
+// Revoke revokes a token
+func Revoke(tk string) error {
+	data := url.Values{
+		"token": {tk},
+	}
+	req, err := http.NewRequest("POST", u+"revoke", strings.NewReader(data.Encode()))
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("X-Micro-Token", t)
+	rsp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return err
+	}
+	defer rsp.Body.Close()
+	b, err := ioutil.ReadAll(rsp.Body)
+	if err != nil {
+		return err
+	}
+	if rsp.StatusCode == 401 {
+		return fmt.Errorf("Api error: %s (require MICRO_API_TOKEN)", strings.TrimSpace(string(b)))
+	}
+	if rsp.StatusCode != 200 {
+		return fmt.Errorf("API error: %s", strings.TrimSpace(string(b)))
+	}
+	return nil
+}
+
+// List lists the tokens
+func List() ([]*Token, error) {
+	if len(t) == 0 {
+		return nil, fmt.Errorf("Require MICRO_API_TOKEN")
+	}
+	req, err := http.NewRequest("GET", u+"list", nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("X-Micro-Token", t)
+	rsp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer rsp.Body.Close()
+	b, err := ioutil.ReadAll(rsp.Body)
+	if err != nil {
+		return nil, err
+	}
+	if rsp.StatusCode == 401 {
+		return nil, fmt.Errorf("Api error: %s (require MICRO_API_TOKEN)", strings.TrimSpace(string(b)))
+	}
+	if rsp.StatusCode != 200 {
+		return nil, fmt.Errorf("API error: %s", strings.TrimSpace(string(b)))
+	}
+	var list map[string][]*Token
+	if err := json.Unmarshal(b, &list); err != nil {
+		return nil, err
+	}
+	return list["tokens"], nil
+}
+
+// SetApiToken sets the api token
+func SetApiToken(tk string) {
+	t = tk
+}
+
+// New returns a new token
 func New() *Token {
 	return &Token{&p.Token{
 		Id:      uuid.NewUUID().String(),

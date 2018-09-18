@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/micro/enterprise/go/token"
 	"github.com/micro/go-micro/cmd"
 	dmc "github.com/micro/micro/cmd"
 )
@@ -14,6 +15,10 @@ var (
 func main() {
 	// setup the command line
 	dmc.Setup(cmd.App())
+
+	// add commands
+	app := cmd.App()
+	app.Commands = append(app.Commands, token.Commands()...)
 
 	// initialise command line
 	cmd.Init(

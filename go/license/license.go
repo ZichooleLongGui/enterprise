@@ -17,7 +17,7 @@ var (
 	c = time.Date(2018, time.September, 5, 16, 23, 0, 0, time.UTC)
 
 	// license api
-	u = "https://micro.mu/license/"
+	u = "http://localhost:9091/"
 
 	// license version
 	v = "20180905"
@@ -56,7 +56,7 @@ func (l *License) Encode(key string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	l.Hash = str
+	l.Key = str
 	return str, nil
 }
 

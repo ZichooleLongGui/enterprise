@@ -11,7 +11,7 @@ message License {
 	// time of creation
 	uint64 created = 3;
 	// X-Micro-License hash
-	string hash = 4;
+	string key = 4;
 	// subscription
 	Subscription subscription = 5;
 }
@@ -48,8 +48,8 @@ message Token {
 	uint64 expires = 2;
 	// various values
 	map<string, string> claims = 3;
-	// encrypted hash
-	string hash = 4;
+	// encrypted key
+	string key = 4;
 }
 
 // Update is a checkpoint
