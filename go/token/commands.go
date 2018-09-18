@@ -79,6 +79,10 @@ func list(ctx *cli.Context) {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+	if len(tokens) == 0 {
+		fmt.Println(`{}`)
+		return
+	}
 	j, err := json.MarshalIndent(tokens, "", "\t")
 	if err != nil {
 		fmt.Println(err)

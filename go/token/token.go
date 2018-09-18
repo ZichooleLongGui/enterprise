@@ -22,15 +22,11 @@ type Token struct {
 
 var (
 	// api token
-	t = "nil"
+	t = os.Getenv("MICRO_API_TOKEN")
 
 	// token api
 	u = "http://localhost:10001/"
 )
-
-func init() {
-	t = os.Getenv("MICRO_API_TOKEN")
-}
 
 func (t *Token) Encode(key string) (string, error) {
 	b, err := json.Marshal(t)

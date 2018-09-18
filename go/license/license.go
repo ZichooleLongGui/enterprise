@@ -2,8 +2,15 @@
 package license
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
+	"io/ioutil"
+	"net/http"
+	"net/url"
+	"os"
+	"strings"
 	"time"
 
 	"github.com/hako/branca"
@@ -21,6 +28,12 @@ var (
 
 	// license version
 	v = "20180905"
+
+	// api token
+	t = os.Getenv("MICRO_API_TOKEN")
+
+	// enterprise license
+	l = os.Getenv("MICRO_ENTERPRISE_LICENSE")
 )
 
 // License is the enterprise license
@@ -215,6 +228,182 @@ func (u *Update) Valid() error {
 		return err
 	}
 	return nil
+}
+
+func call(method, uri string, vals url.Values) (*http.Response, error) {
+	// check token
+	if len(t) == 0 {
+		return nil, fmt.Errorf("Require MICRO_API_TOKEN")
+	}
+	// set vals
+	var data io.Reader
+	if vals != nil {
+		data = strings.NewReader(vals.Encode())
+	}
+	req, err := http.NewRequest(method, uri, data)
+	if err != nil {
+		return nil, err
+	}
+	if data != nil {
+		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	}
+	req.Header.Set("X-Micro-Token", t)
+	return http.DefaultClient.Do(req)
+}
+
+// SendUpdate sends a license update
+func SendUpdate(ud *Update) error {
+	b, err := json.Marshal(ud)
+	if err != nil {
+		return err
+	}
+	req, err := http.NewRequest("POST", u+"update", bytes.NewBuffer(b))
+	if err != nil {
+		return err
+	}
+	req.Header.Set("X-Micro-License", l)
+	rsp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return err
+	}
+	defer rsp.Body.Close()
+	b, err = ioutil.ReadAll(rsp.Body)
+	if err != nil {
+		return err
+	}
+	if rsp.StatusCode != 200 {
+		return fmt.Errorf("Api error: %s (require MICRO_ENTERPRISE_LICENSE)", strings.TrimSpace(string(b)))
+	}
+	return nil
+}
+
+// Generate generates the license
+func Generate(subscription string) (string, error) {
+	data := url.Values{
+		"subscription": {subscription},
+	}
+	rsp, err := call("POST", u+"generate", data)
+	if err != nil {
+		return "", err
+	}
+	defer rsp.Body.Close()
+	b, err := ioutil.ReadAll(rsp.Body)
+	if err != nil {
+		return "", err
+	}
+	if rsp.StatusCode != 200 {
+		return "", fmt.Errorf(string(b))
+	}
+	var res map[string]interface{}
+	if err := json.Unmarshal(b, &res); err != nil {
+		return "", err
+	}
+	license, _ := res["license"].(string)
+	return license, nil
+}
+
+// Revoke revokes a license
+func Revoke(lu string) error {
+	data := url.Values{
+		"license": {lu},
+	}
+	rsp, err := call("POST", u+"revoke", data)
+	if err != nil {
+		return err
+	}
+	defer rsp.Body.Close()
+	b, err := ioutil.ReadAll(rsp.Body)
+	if err != nil {
+		return err
+	}
+	if rsp.StatusCode == 401 {
+		return fmt.Errorf("Api error: %s (require MICRO_API_TOKEN)", strings.TrimSpace(string(b)))
+	}
+	if rsp.StatusCode != 200 {
+		return fmt.Errorf("API error: %s", strings.TrimSpace(string(b)))
+	}
+	return nil
+}
+
+// List lists the licenses
+func List() ([]*License, error) {
+	rsp, err := call("GET", u+"list", nil)
+	if err != nil {
+		return nil, err
+	}
+	defer rsp.Body.Close()
+	b, err := ioutil.ReadAll(rsp.Body)
+	if err != nil {
+		return nil, err
+	}
+	if rsp.StatusCode == 401 {
+		return nil, fmt.Errorf("Api error: %s (require MICRO_API_TOKEN)", strings.TrimSpace(string(b)))
+	}
+	if rsp.StatusCode != 200 {
+		return nil, fmt.Errorf("API error: %s", strings.TrimSpace(string(b)))
+	}
+	var list map[string][]*License
+	if err := json.Unmarshal(b, &list); err != nil {
+		return nil, err
+	}
+	return list["licenses"], nil
+}
+
+// Verify a token is valid
+func Verify(lu string) error {
+	data := url.Values{
+		"license": {lu},
+	}
+	rsp, err := call("POST", u+"verify", data)
+	if err != nil {
+		return err
+	}
+	defer rsp.Body.Close()
+	b, err := ioutil.ReadAll(rsp.Body)
+	if err != nil {
+		return err
+	}
+	if rsp.StatusCode == 401 {
+		return fmt.Errorf(strings.TrimSpace(string(b)))
+	}
+	if rsp.StatusCode != 200 {
+		return fmt.Errorf(strings.TrimSpace(string(b)))
+	}
+	return nil
+}
+
+// Subscriptions lists the subscriptions
+func Subscriptions() ([]*Subscription, error) {
+	rsp, err := call("GET", u+"subscriptions", nil)
+	if err != nil {
+		return nil, err
+	}
+	defer rsp.Body.Close()
+	b, err := ioutil.ReadAll(rsp.Body)
+	if err != nil {
+		return nil, err
+	}
+	if rsp.StatusCode == 401 {
+		return nil, fmt.Errorf("Api error: %s (require MICRO_API_TOKEN)", strings.TrimSpace(string(b)))
+	}
+	if rsp.StatusCode != 200 {
+		return nil, fmt.Errorf("API error: %s", strings.TrimSpace(string(b)))
+	}
+	var list []*Subscription
+	if err := json.Unmarshal(b, &list); err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+// SetApiToken sets the api token
+func SetApiToken(tk string) {
+	t = tk
+}
+
+// Set license to use on update calls
+func SetLicense(lu string) {
+	l = lu
 }
 
 func New() *License {
