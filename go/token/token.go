@@ -22,11 +22,17 @@ type Token struct {
 
 var (
 	// api token
-	t = os.Getenv("MICRO_API_TOKEN")
+	t = os.Getenv("MICRO_TOKEN_KEY")
 
 	// token api
 	u = "https://micro.mu/token/"
 )
+
+func init() {
+	if uri := os.Getenv("MICRO_TOKEN_API"); len(uri) > 0 {
+		u = uri
+	}
+}
 
 func (t *Token) Encode(key string) (string, error) {
 	b, err := json.Marshal(t)
@@ -146,7 +152,7 @@ func Revoke(tk string) error {
 		return err
 	}
 	if rsp.StatusCode == 401 {
-		return fmt.Errorf("Api error: %s (require MICRO_API_TOKEN)", strings.TrimSpace(string(b)))
+		return fmt.Errorf("Api error: %s (require MICRO_TOKEN_KEY)", strings.TrimSpace(string(b)))
 	}
 	if rsp.StatusCode != 200 {
 		return fmt.Errorf("API error: %s", strings.TrimSpace(string(b)))
@@ -157,7 +163,7 @@ func Revoke(tk string) error {
 // List lists the tokens
 func List() ([]*Token, error) {
 	if len(t) == 0 {
-		return nil, fmt.Errorf("Require MICRO_API_TOKEN")
+		return nil, fmt.Errorf("Require MICRO_TOKEN_KEY")
 	}
 	req, err := http.NewRequest("GET", u+"list", nil)
 	if err != nil {
@@ -174,7 +180,7 @@ func List() ([]*Token, error) {
 		return nil, err
 	}
 	if rsp.StatusCode == 401 {
-		return nil, fmt.Errorf("Api error: %s (require MICRO_API_TOKEN)", strings.TrimSpace(string(b)))
+		return nil, fmt.Errorf("Api error: %s (require MICRO_TOKEN_KEY)", strings.TrimSpace(string(b)))
 	}
 	if rsp.StatusCode != 200 {
 		return nil, fmt.Errorf("API error: %s", strings.TrimSpace(string(b)))

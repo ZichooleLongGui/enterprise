@@ -30,11 +30,17 @@ var (
 	v = "20180905"
 
 	// api token
-	t = os.Getenv("MICRO_API_TOKEN")
+	t = os.Getenv("MICRO_TOKEN_KEY")
 
 	// enterprise license
 	l = os.Getenv("MICRO_LICENSE_KEY")
 )
+
+func init() {
+	if uri := os.Getenv("MICRO_LICENSE_API"); len(uri) > 0 {
+		u = uri
+	}
+}
 
 // License is the enterprise license
 type License struct {
