@@ -21,7 +21,7 @@ func generate(ctx *cli.Context) {
 	// no pass first request it
 	if len(pass) == 0 {
 		if err := SendPass(email); err != nil {
-			fmt.Println(err)
+			fmt.Println("Sending OTP pass failed:", err)
 			os.Exit(1)
 		}
 
@@ -36,7 +36,7 @@ func generate(ctx *cli.Context) {
 	// generate
 	t, err := Generate(email, pass)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Token generation failed:", err)
 		os.Exit(1)
 	}
 	fmt.Println("Your token (set as MICRO_API_TOKEN env var or X-Micro-Token http header):")
