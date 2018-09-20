@@ -265,7 +265,7 @@ func SendUpdate(ud *Update) error {
 		return err
 	}
 	if rsp.StatusCode != 200 {
-		return fmt.Errorf("Api error: %s (require MICRO_ENTERPRISE_LICENSE)", strings.TrimSpace(string(b)))
+		return fmt.Errorf("Api error: %s (require MICRO_LICENSE_KEY)", strings.TrimSpace(string(b)))
 	}
 	return nil
 }

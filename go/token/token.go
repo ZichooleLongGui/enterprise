@@ -21,6 +21,9 @@ type Token struct {
 }
 
 var (
+	// agent
+	a = "me0"
+
 	// api token
 	t = os.Getenv("MICRO_TOKEN_KEY")
 
@@ -91,7 +94,12 @@ func SendPass(email string) error {
 	if err != nil {
 		return err
 	}
-	rsp, err := http.Get(uri.String())
+	req, err := http.NewRequest("GET", uri.String(), nil)
+	if err != nil {
+		return err
+	}
+	req.Header.Set("X-Micro-Agent", a)
+	rsp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return err
 	}
@@ -101,7 +109,7 @@ func SendPass(email string) error {
 		return err
 	}
 	if rsp.StatusCode != 200 {
-		return fmt.Errorf(string(b))
+		return fmt.Errorf(strings.TrimSpace(string(b)))
 	}
 	return nil
 }
