@@ -8,6 +8,7 @@ It is generated from these files:
 	github.com/micro/enterprise/proto/license.proto
 
 It has these top-level messages:
+	Info
 	License
 	Service
 	Subscription

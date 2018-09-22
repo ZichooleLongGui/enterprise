@@ -39,7 +39,7 @@ func generate(ctx *cli.Context) {
 		fmt.Println("Token generation failed:", err)
 		os.Exit(1)
 	}
-	fmt.Println("Your token (set as MICRO_API_TOKEN env var or X-Micro-Token http header):")
+	fmt.Println("Your token (set as MICRO_TOKEN_KEY env var or X-Micro-Token http header):")
 	fmt.Println(t)
 }
 

@@ -2,6 +2,16 @@ syntax = "proto3";
 
 package enterprise;
 
+// Info is the response from an update
+message Info {
+	// informational message
+	string message = 1;
+	// unix timestamp of info
+	uint64 timestamp = 2;
+	// unix timestamp for next update
+	uint64 next_update = 3;
+}
+
 // License is the enterprise license
 message License {
 	// unique id

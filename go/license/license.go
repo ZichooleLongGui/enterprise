@@ -62,6 +62,11 @@ type Update struct {
 	*proto.Update
 }
 
+// Info is the response from the update
+type Info struct {
+	*proto.Info
+}
+
 func (l *License) Encode(key string) (string, error) {
 	b, err := json.Marshal(l)
 	if err != nil {
@@ -226,7 +231,7 @@ func (u *Update) Valid() error {
 func call(method, uri string, vals url.Values) (*http.Response, error) {
 	// check token
 	if len(t) == 0 {
-		return nil, fmt.Errorf("Require MICRO_API_TOKEN")
+		return nil, fmt.Errorf("Require MICRO_TOKEN_KEY")
 	}
 	// set vals
 	var data io.Reader
@@ -245,29 +250,33 @@ func call(method, uri string, vals url.Values) (*http.Response, error) {
 }
 
 // SendUpdate sends a license update
-func SendUpdate(ud *Update) error {
+func SendUpdate(ud *Update) (*Info, error) {
 	b, err := json.Marshal(ud)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	req, err := http.NewRequest("POST", u+"update", bytes.NewBuffer(b))
 	if err != nil {
-		return err
+		return nil, err
 	}
 	req.Header.Set("X-Micro-License", l)
 	rsp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	defer rsp.Body.Close()
 	b, err = ioutil.ReadAll(rsp.Body)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	if rsp.StatusCode != 200 {
-		return fmt.Errorf("Api error: %s (require MICRO_LICENSE_KEY)", strings.TrimSpace(string(b)))
+		return nil, fmt.Errorf("Api error: %s (require MICRO_LICENSE_KEY)", strings.TrimSpace(string(b)))
 	}
-	return nil
+	var info *Info
+	if err := json.Unmarshal(b, &info); err != nil {
+		return nil, err
+	}
+	return info, nil
 }
 
 // Generate generates the license
@@ -310,7 +319,7 @@ func Revoke(lu string) error {
 		return err
 	}
 	if rsp.StatusCode == 401 {
-		return fmt.Errorf("Api error: %s (require MICRO_API_TOKEN)", strings.TrimSpace(string(b)))
+		return fmt.Errorf("Api error: %s (require MICRO_TOKEN_KEY)", strings.TrimSpace(string(b)))
 	}
 	if rsp.StatusCode != 200 {
 		return fmt.Errorf("API error: %s", strings.TrimSpace(string(b)))
@@ -330,7 +339,7 @@ func List() ([]*License, error) {
 		return nil, err
 	}
 	if rsp.StatusCode == 401 {
-		return nil, fmt.Errorf("Api error: %s (require MICRO_API_TOKEN)", strings.TrimSpace(string(b)))
+		return nil, fmt.Errorf("Api error: %s (require MICRO_TOKEN_KEY)", strings.TrimSpace(string(b)))
 	}
 	if rsp.StatusCode != 200 {
 		return nil, fmt.Errorf("API error: %s", strings.TrimSpace(string(b)))
@@ -377,7 +386,7 @@ func Subscriptions() ([]*Subscription, error) {
 		return nil, err
 	}
 	if rsp.StatusCode == 401 {
-		return nil, fmt.Errorf("Api error: %s (require MICRO_API_TOKEN)", strings.TrimSpace(string(b)))
+		return nil, fmt.Errorf("Api error: %s (require MICRO_TOKEN_KEY)", strings.TrimSpace(string(b)))
 	}
 	if rsp.StatusCode != 200 {
 		return nil, fmt.Errorf("API error: %s", strings.TrimSpace(string(b)))
