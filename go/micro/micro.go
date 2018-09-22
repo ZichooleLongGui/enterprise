@@ -1,3 +1,4 @@
+// Package micro is for enterprise Go Micro
 package micro
 
 import (

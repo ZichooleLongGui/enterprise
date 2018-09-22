@@ -1,4 +1,4 @@
-// Package token is for tokenisation
+// Package token is for api token management
 package token
 
 import (

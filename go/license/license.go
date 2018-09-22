@@ -1,4 +1,4 @@
-// package license provides related code
+// Package license provides license management code
 package license
 
 import (
