@@ -28,6 +28,10 @@ This version of Micro requires a [Micro Enterprise License Agreement](LICENSE) c
 
 See the [website](https://micro.mu/pricing) for details
 
+## Getting Started
+
+See the [docs](https://micro.mu/docs/enterprise.html) to get started
+
 ## License
 
 This version of Micro is distributed under the commercial [Micro Enterprise License Agreement](LICENSE)
