@@ -1,13 +1,11 @@
 package main
 
 import (
-	"fmt"
-	"os"
-
 	"github.com/micro/enterprise/go/license"
 	"github.com/micro/enterprise/go/token"
 	"github.com/micro/go-micro/cmd"
 	dmc "github.com/micro/micro/cmd"
+	"github.com/micro/micro/plugin"
 )
 
 var (
@@ -17,17 +15,8 @@ var (
 )
 
 func main() {
-	// get key
-	key := os.Getenv("MICRO_LICENSE_KEY")
-
-	// TODO: check key is valid
-	if len(key) < 62 {
-		fmt.Println("micro enterprise license key missing")
-		os.Exit(1)
-	}
-
-	// set the license
-	license.SetLicense(key)
+	// register plugin
+	plugin.Register(license.Plugin())
 
 	// setup the command line
 	dmc.Setup(cmd.App())
