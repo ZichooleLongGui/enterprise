@@ -1,4 +1,4 @@
-# Micro Enterprise [![License](https://img.shields.io/badge/license-enterprise-lightgrey.svg)](https://github.com/micro/enterprise/blob/master/LICENSE)
+# Micro Enterprise [![License](https://img.shields.io/badge/license-enterprise-blue.svg)](https://github.com/micro/enterprise/blob/master/LICENSE)
 
 
 Micro Enterprise is a soon to be released turn-key solution for building production ready cloud-native applications.
