@@ -12,17 +12,17 @@ This version of Micro requires a [Micro Enterprise License Agreement](LICENSE) c
 
 ## Features
 
-- secure by default (tls enabled)
-- authentication (rbac and service to service)
-- global circuit breaking and rate limiting
-- gRPC communication
-- unified control plane
-- performance tuned
-- hot reloading config
-- dynamic plugin loading
-- opentracing support
-- prometheus instrumentation
+- secure by default: tls enabled
+- authentication: rbac and service-to-service
+- central control plane
+- circuit breaking
+- rate limiting
+- distributed tracing
 - intelligent routing
+- metric instrumentation
+- performance tuned
+- config reloading
+- dynamic plugin loading
 
 ## Pricing
 
