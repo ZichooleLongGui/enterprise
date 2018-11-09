@@ -16,10 +16,10 @@ This version of Micro requires a [Micro Enterprise License Agreement](LICENSE) c
 - authentication: rbac and service-to-service
 - central control plane
 - circuit breaking
-- rate limiting
 - distributed tracing
-- intelligent routing
-- metric instrumentation
+- rate limiting
+- smart routing
+- instrumentation
 - performance tuned
 - config reloading
 - dynamic plugin loading
