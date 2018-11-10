@@ -1,12 +1,12 @@
 # Micro Enterprise [![License](https://img.shields.io/badge/license-enterprise-blue.svg)](https://github.com/micro/enterprise/blob/master/LICENSE)
 
 
-Micro Enterprise is a soon to be released turn-key solution for building production ready cloud-native applications.
+Micro Enterprise is a turn-key solution for building production ready cloud-native applications.
 
 ## Overview
 
-Micro Enterprise is an enterprise version of the [micro](https://github.com/micro/micro) toolkit. It includes additional 
-features which are absolutely critical for a stable and performant production grade microservice solution.
+Micro Enterprise is an enterprise version of the [micro](https://github.com/micro/micro) toolkit. It pre-packages 
+the most useful open source features in a tried and tested single solution critical for production use.
 
 This version of Micro requires a [Micro Enterprise License Agreement](LICENSE) commercial subscription.
 
