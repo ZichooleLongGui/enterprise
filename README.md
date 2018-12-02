@@ -8,6 +8,8 @@ Micro Enterprise is a turn-key solution for building production ready cloud-nati
 Micro Enterprise is an enterprise version of the [micro](https://github.com/micro/micro) toolkit. It pre-packages 
 the most useful open source features in a tried and tested single solution critical for production use.
 
+<img src="https://micro.mu/micro-enterprise.png" />
+
 This version of Micro requires a [Micro Enterprise License Agreement](LICENSE) commercial subscription.
 
 ## Features
