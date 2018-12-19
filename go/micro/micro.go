@@ -12,6 +12,8 @@ import (
 	"github.com/micro/enterprise/go/license"
 	"github.com/micro/go-log"
 	"github.com/micro/go-micro"
+	"github.com/micro/go-micro/broker"
+	"github.com/micro/go-micro/transport"
 )
 
 type service struct {
@@ -129,8 +131,15 @@ func License(key string) micro.Option {
 
 // NewService returns a new enterprise Go Micro Service
 func NewService(opts ...micro.Option) micro.Service {
-	svc := &service{
-		micro.NewService(opts...),
-	}
-	return svc
+	srv := micro.NewService(opts...)
+
+	// transport set secure by default
+	t := srv.Server().Options().Transport
+	t.Init(transport.Secure(true))
+
+	// transport set secure by default
+	b := srv.Server().Options().Broker
+	b.Init(broker.Secure(true))
+
+	return &service{srv}
 }
