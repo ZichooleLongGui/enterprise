@@ -14,6 +14,9 @@ This version of Micro requires a [Micro Enterprise License Agreement](LICENSE) c
 
 ## Features
 
+- **Dynamic Config** - Load config from environment variables, flags and a config file, all integrated into one interface. Config is 
+merged, watched and reloaded as it changes. 
+
 - secure by default: tls enabled
 - authentication: rbac and service-to-service
 - central control plane
@@ -24,9 +27,6 @@ This version of Micro requires a [Micro Enterprise License Agreement](LICENSE) c
 - instrumentation
 - performance tuned
 - plugin loading
-
-- **Dynamic Config** - Load config from environment variables, flags and a config file, all integrated into one interface. Config is 
-merged, watched and reloaded as it changes. 
 
 ## Pricing
 
