@@ -23,8 +23,10 @@ This version of Micro requires a [Micro Enterprise License Agreement](LICENSE) c
 - smart routing
 - instrumentation
 - performance tuned
-- config reloading
-- dynamic plugin loading
+- plugin loading
+
+- **Dynamic Config** - Load config from environment variables, flags and a config file, all integrated into one interface. Config is 
+merged, watched and reloaded as it changes. 
 
 ## Pricing
 
