@@ -29,7 +29,6 @@ once, swap out plugins at runtime. This enables a flexible and portable runtime.
 - smart routing
 - instrumentation
 - performance tuned
-- plugin loading
 
 ## Pricing
 
