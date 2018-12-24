@@ -20,6 +20,9 @@ merged, watched and reloaded as it changes.
 - **Plugin Loading** - Plugins can be built via the command line or built and loaded on the fly. Build your apps and the micro toolkit 
 once, swap out plugins at runtime. This enables a flexible and portable runtime.
 
+- **Authentication** - Support for basic, digest, ldap and other forms of authentication. Quickly enable auth on any component of 
+the toolkit. Limit the access to the web dashboard or the api gateway easily.
+
 - secure by default: tls enabled
 - authentication: rbac and service-to-service
 - central control plane
