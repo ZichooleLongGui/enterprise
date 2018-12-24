@@ -8,13 +8,6 @@ import (
 
 	"github.com/micro/cli"
 	"github.com/micro/go-log"
-	"github.com/micro/go-micro/broker"
-	"github.com/micro/go-micro/client"
-	"github.com/micro/go-micro/cmd"
-	"github.com/micro/go-micro/registry"
-	"github.com/micro/go-micro/selector"
-	"github.com/micro/go-micro/server"
-	"github.com/micro/go-micro/transport"
 	"github.com/micro/micro/plugin"
 )
 
@@ -84,56 +77,8 @@ func load(p string) error {
 		return fmt.Errorf("Failed to load plugin %s: %v", soPath, err)
 	}
 
-	switch pl.Type {
-	case "micro":
-		pg, ok := pl.NewFunc.(func() plugin.Plugin)
-		if !ok {
-			return fmt.Errorf("Invalid plugin %s", pl.Name)
-		}
-		plugin.Register(pg())
-	case "broker":
-		pg, ok := pl.NewFunc.(func(...broker.Option) broker.Broker)
-		if !ok {
-			return fmt.Errorf("Invalid plugin %s", pl.Name)
-		}
-		cmd.DefaultBrokers[pl.Name] = pg
-	case "client":
-		pg, ok := pl.NewFunc.(func(...client.Option) client.Client)
-		if !ok {
-			return fmt.Errorf("Invalid plugin %s", pl.Name)
-		}
-		cmd.DefaultClients[pl.Name] = pg
-	case "registry":
-		pg, ok := pl.NewFunc.(func(...registry.Option) registry.Registry)
-		if !ok {
-			return fmt.Errorf("Invalid plugin %s", pl.Name)
-		}
-		cmd.DefaultRegistries[pl.Name] = pg
-
-	case "selector":
-		pg, ok := pl.NewFunc.(func(...selector.Option) selector.Selector)
-		if !ok {
-			return fmt.Errorf("Invalid plugin %s", pl.Name)
-		}
-		cmd.DefaultSelectors[pl.Name] = pg
-	case "server":
-		pg, ok := pl.NewFunc.(func(...server.Option) server.Server)
-		if !ok {
-			return fmt.Errorf("Invalid plugin %s", pl.Name)
-		}
-		cmd.DefaultServers[pl.Name] = pg
-	case "transport":
-		pg, ok := pl.NewFunc.(func(...transport.Option) transport.Transport)
-		if !ok {
-			return fmt.Errorf("Invalid plugin %s", pl.Name)
-		}
-
-		cmd.DefaultTransports[pl.Name] = pg
-	default:
-		return fmt.Errorf("Unknown plugin type: %s for %s", pl.Type, pl.Name)
-	}
-
-	return nil
+	// Initialise the plugin
+	return Init(pl)
 }
 
 // returns a micro plugin which loads plugins

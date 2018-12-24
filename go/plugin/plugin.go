@@ -1,3 +1,4 @@
+// Package plugin provides the ability to load plugins
 package plugin
 
 import (
@@ -9,6 +10,15 @@ import (
 	"plugin"
 	"strings"
 	"text/template"
+
+	"github.com/micro/go-micro/broker"
+	"github.com/micro/go-micro/client"
+	"github.com/micro/go-micro/cmd"
+	"github.com/micro/go-micro/registry"
+	"github.com/micro/go-micro/selector"
+	"github.com/micro/go-micro/server"
+	"github.com/micro/go-micro/transport"
+	mp "github.com/micro/micro/plugin"
 )
 
 // Plugin is a plugin loaded from a file
@@ -21,6 +31,57 @@ type Plugin struct {
 	Path string
 	// NewFunc creates an instance of the plugin
 	NewFunc interface{}
+}
+
+// Init sets up the plugin
+func Init(p *Plugin) error {
+	switch p.Type {
+	case "micro":
+		pg, ok := p.NewFunc.(func() mp.Plugin)
+		if !ok {
+			return fmt.Errorf("Invalid plugin %s", p.Name)
+		}
+		mp.Register(pg())
+	case "broker":
+		pg, ok := p.NewFunc.(func(...broker.Option) broker.Broker)
+		if !ok {
+			return fmt.Errorf("Invalid plugin %s", p.Name)
+		}
+		cmd.DefaultBrokers[p.Name] = pg
+	case "client":
+		pg, ok := p.NewFunc.(func(...client.Option) client.Client)
+		if !ok {
+			return fmt.Errorf("Invalid plugin %s", p.Name)
+		}
+		cmd.DefaultClients[p.Name] = pg
+	case "registry":
+		pg, ok := p.NewFunc.(func(...registry.Option) registry.Registry)
+		if !ok {
+			return fmt.Errorf("Invalid plugin %s", p.Name)
+		}
+		cmd.DefaultRegistries[p.Name] = pg
+
+	case "selector":
+		pg, ok := p.NewFunc.(func(...selector.Option) selector.Selector)
+		if !ok {
+			return fmt.Errorf("Invalid plugin %s", p.Name)
+		}
+		cmd.DefaultSelectors[p.Name] = pg
+	case "server":
+		pg, ok := p.NewFunc.(func(...server.Option) server.Server)
+		if !ok {
+			return fmt.Errorf("Invalid plugin %s", p.Name)
+		}
+		cmd.DefaultServers[p.Name] = pg
+	case "transport":
+		pg, ok := p.NewFunc.(func(...transport.Option) transport.Transport)
+		if !ok {
+			return fmt.Errorf("Invalid plugin %s", p.Name)
+		}
+		cmd.DefaultTransports[p.Name] = pg
+	}
+
+	return fmt.Errorf("Unknown plugin type: %s for %s", p.Type, p.Name)
 }
 
 // Load loads a plugin created with `go build -buildmode=plugin`
