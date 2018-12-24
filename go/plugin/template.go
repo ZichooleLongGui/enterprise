@@ -9,7 +9,7 @@ import (
 	"github.com/micro/enterprise/go/plugin"
 )
 
-var Plugin = &plugin.Plugin{
+var Plugin = plugin.Plugin{
 	Name: "{{.Name}}",
 	Type: "{{.Type}}",
 	Path: "{{.Path}}",

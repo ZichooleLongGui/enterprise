@@ -9,7 +9,9 @@ import (
 	"os"
 	"time"
 
+	"github.com/micro/cli"
 	"github.com/micro/enterprise/go/license"
+	"github.com/micro/enterprise/go/plugin"
 	"github.com/micro/go-log"
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/broker"
@@ -132,6 +134,18 @@ func License(key string) micro.Option {
 // NewService returns a new enterprise Go Micro Service
 func NewService(opts ...micro.Option) micro.Service {
 	srv := micro.NewService(opts...)
+
+	// set plugin
+	app := srv.Options().Cmd.App()
+	before := app.Before
+	pg := plugin.NewPlugin()
+	app.Flags = append(app.Flags, pg.Flags()...)
+	app.Before = func(ctx *cli.Context) error {
+		if err := pg.Init(ctx); err != nil {
+			return err
+		}
+		return before(ctx)
+	}
 
 	// transport set secure by default
 	t := srv.Server().Options().Transport

@@ -17,6 +17,9 @@ This version of Micro requires a [Micro Enterprise License Agreement](LICENSE) c
 - **Dynamic Config** - Load config from environment variables, flags and a config file, all integrated into one interface. Config is 
 merged, watched and reloaded as it changes. 
 
+- **Plugin Loading** - Plugins can be built via the command line or built and loaded on the fly. Build your apps and the micro toolkit 
+once, swap out plugins at runtime. This enables a flexible and portable runtime.
+
 - secure by default: tls enabled
 - authentication: rbac and service-to-service
 - central control plane

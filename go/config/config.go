@@ -9,8 +9,8 @@ import (
 )
 
 // NewConfig returns new config for env vars, flags and config file.
-// Config file is expected to be at the path ./config.json. For flag 
-// parsing to take effect service.Init must be called before creating 
+// Config file is expected to be at the path ./config.json. For flag
+// parsing to take effect service.Init must be called before creating
 // new config.
 func NewConfig(opts ...config.Option) config.Config {
 	return config.NewConfig(

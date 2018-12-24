@@ -2,6 +2,7 @@ package plugin
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -34,7 +35,7 @@ func Load(path string) (*Plugin, error) {
 	}
 	pl, ok := s.(*Plugin)
 	if !ok {
-		return nil, errors.New("could not find plugin")
+		return nil, errors.New("could not cast Plugin object")
 	}
 	return pl, nil
 }
@@ -70,6 +71,9 @@ func Build(path string, p *Plugin) error {
 	// remove .go file
 	defer os.Remove(goFile)
 
+	if err := os.MkdirAll(filepath.Dir(path), 0755); err != nil && !os.IsExist(err) {
+		return fmt.Errorf("Failed to create dir %s: %v", filepath.Dir(path), err)
+	}
 	c := exec.Command("go", "build", "-buildmode=plugin", "-o", path+".so", goFile)
 	return c.Run()
 }

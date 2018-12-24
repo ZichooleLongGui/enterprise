@@ -9,8 +9,9 @@ import (
 )
 
 // returns a micro plugin which validates use of license
-func Plugin() plugin.Plugin {
+func NewPlugin() plugin.Plugin {
 	return plugin.NewPlugin(
+		plugin.WithName("license"),
 		plugin.WithInit(func(ctx *cli.Context) error {
 			if len(ctx.Args()) == 0 {
 				return nil
