@@ -10,10 +10,14 @@ import (
 	mp "github.com/micro/micro/plugin"
 
 	// enterprise plugins
+	"github.com/micro/enterprise/go/auth"
 	"github.com/micro/enterprise/go/license"
 	"github.com/micro/enterprise/go/plugin"
 	"github.com/micro/enterprise/go/token"
-	"github.com/micro/enterprise/go/auth"
+
+	// TODO: move to plugin dir
+	_ "github.com/micro/go-plugins/micro/bot/input/discord"
+	_ "github.com/micro/go-plugins/micro/bot/input/telegram"
 )
 
 var (
@@ -22,31 +26,32 @@ var (
 	version     = "0.1.0"
 )
 
+// TODO: move to plugin/ dir
 func plugins() {
-        // register license plugin
-        if err := mp.Register(license.NewPlugin()); err != nil {
-                fmt.Println(err)
-                os.Exit(1)
-        }
+	// register license plugin
+	if err := mp.Register(license.NewPlugin()); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 
-        // register plugin loader
-        if err := mp.Register(plugin.NewPlugin()); err != nil {
-                fmt.Println(err)
-                os.Exit(1)
-        }
+	// register plugin loader
+	if err := mp.Register(plugin.NewPlugin()); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 
-        // register admin auth
-        if err := mp.Register(auth.NewPlugin()); err != nil {
+	// register admin auth
+	if err := mp.Register(auth.NewPlugin()); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
 }
 
 func commands(app *cli.App) {
-        // add commands
-        app.Commands = append(app.Commands, token.Commands()...)
-        app.Commands = append(app.Commands, license.Commands()...)
-        app.Commands = append(app.Commands, plugin.Commands()...)
+	// add commands
+	app.Commands = append(app.Commands, token.Commands()...)
+	app.Commands = append(app.Commands, license.Commands()...)
+	app.Commands = append(app.Commands, plugin.Commands()...)
 }
 
 func main() {
@@ -58,7 +63,6 @@ func main() {
 
 	// setup plugins
 	commands(cmd.App())
-
 
 	// initialise command line
 	cmd.Init(
