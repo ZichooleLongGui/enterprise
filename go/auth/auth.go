@@ -69,14 +69,14 @@ func NewPlugin() plugin.Plugin {
 
 			switch typ {
 			case "basic":
-				auth.Provider = basic.New(file, realm)
+				auth.Provider = basic.New(file, authRealm)
 				log.Logf("Loaded basic auth file: %s\n", file)
 			case "digest":
 				log.Logf("Loaded digest auth file: %s\n", file)
-				auth.Provider = digest.New(file, realm)
+				auth.Provider = digest.New(file, authRealm)
 			case "ldap", "ldaps":
 				log.Logf("Loaded ldap auth url: %s\n", file)
-				auth.Provider = ldap.New(file, realm)
+				auth.Provider = ldap.New(file, authRealm)
 			}
 
 			return nil
