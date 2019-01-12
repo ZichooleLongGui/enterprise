@@ -205,6 +205,9 @@ func (p *Router) ServeRequest(ctx context.Context, req server.Request, rsp serve
 //
 // 	r := NewSingleHostRouter("http://localhost:10001")
 //
+//	// Add additional routes
+//	r.RegisterEndpoint("Hello.World", "/helloworld")
+//
 // 	// Create your new service
 // 	service := micro.NewService(
 // 		micro.Name("greeter"),
