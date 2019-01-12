@@ -213,10 +213,9 @@ func (p *Router) ServeRequest(ctx context.Context, req server.Request, rsp serve
 // 	// Create your new service
 // 	service := micro.NewService(
 // 		micro.Name("greeter"),
+//		// Set the router
+//		http.WithRouter(r),
 // 	)
-//
-// 	// Setup the router
-// 	service.Server().Init(server.WithRouter(r))
 //
 // 	// Run the service
 // 	service.Run()
