@@ -43,17 +43,21 @@ func TestHTTPRouter(t *testing.T) {
 		{addr, "/foo/bar", "Foo.Bar", false},
 		{addr, "/foo/baz", "Foo.Baz", true},
 		{addr, "/helloworld", "Hello.World", false},
+		{addr, "/greeter", "Greeter.Hello", false},
+		{addr, "/", "Fail.Hard", true},
 	}
 
 	// handler
 	http.Handle("/foo/bar", new(testHandler))
+	http.Handle("/helloworld", new(testHandler))
+	http.Handle("/greeter", new(testHandler))
 
 	// new proxy
 	p := NewSingleHostRouter(url)
 
 	// register a route
 	p.RegisterEndpoint("Hello.World", "/helloworld")
-	http.Handle("/helloworld", new(testHandler))
+	p.RegisterEndpoint("Greeter.Hello", url+"/greeter")
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
