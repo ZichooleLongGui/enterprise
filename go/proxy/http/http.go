@@ -117,6 +117,8 @@ func (p *Router) RegisterEndpoint(rpcEp string, httpEp string) error {
 	return nil
 }
 
+func (p *Router) ServeHTTP(w http.ResponseWriter,
+
 // ServeRequest honours the server.Router interface
 func (p *Router) ServeRequest(ctx context.Context, req server.Request, rsp server.Response) error {
 	// rudimentary post based streaming
@@ -202,18 +204,19 @@ func (p *Router) ServeRequest(ctx context.Context, req server.Request, rsp serve
 // Usage:
 //
 // Create a new router to the http backend
-// r := NewSingleHostRouter("http://localhost:10001")
 //
-// // Create your new service
-// service := micro.NewService(
-// 	micro.Name("greeter"),
-// )
+// 	r := NewSingleHostRouter("http://localhost:10001")
 //
-// // Setup the router
-// service.Server().Init(server.WithRouter(r))
+// 	// Create your new service
+// 	service := micro.NewService(
+// 		micro.Name("greeter"),
+// 	)
 //
-// // Run the service
-// service.Run()
+// 	// Setup the router
+// 	service.Server().Init(server.WithRouter(r))
+//
+// 	// Run the service
+// 	service.Run()
 func NewSingleHostRouter(url string) *Router {
 	return &Router{
 		Resolver: new(Resolver),
@@ -227,12 +230,12 @@ func NewSingleHostRouter(url string) *Router {
 //
 // Usage:
 //
-// service := NewProxy(
-//	micro.Name("greeter"),
-//	http.SetRouter(r),
-// // OR
-//	http.SetEndpoint("http://localhost:10001"),
-// )
+// 	service := NewProxy(
+//		micro.Name("greeter"),
+//		http.SetRouter(r),
+// 		// OR
+//		http.SetEndpoint("http://localhost:10001"),
+//	 )
 func NewService(opts ...micro.Option) micro.Service {
 	// prepend router to opts
 	opts = append([]micro.Option{SetRouter(NewSingleHostRouter(Endpoint))}, opts...)
