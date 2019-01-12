@@ -228,8 +228,9 @@ func NewSingleHostRouter(url string) *Router {
 	}
 }
 
-// NewService returns a new http proxy. It acts as a go-micro service and proxies to http backend.
-// Optionally specify the backend endpoint or the router. Otherwise a default is set.
+// NewService returns a new http proxy. It acts as a micro service and proxies to a http backend.
+// Routes are dynamically set e.g Foo.Bar routes to /foo/bar. The default backend is http://localhost:9090. 
+// Optionally specify the backend endpoint url or the router. Also choose to register specific endpoints.
 //
 // Usage:
 //
