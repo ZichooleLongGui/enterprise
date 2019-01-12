@@ -21,12 +21,11 @@ import (
 type Router struct {
 	// Converts RPC Foo.Bar to /foo/bar
 	Resolver *Resolver
-	// The http endpoint to call
-	Endpoint string
+	// The http backend to call
+	Backend string
 
 	// first request
 	first bool
-
 	// rpc ep / http ep mapping
 	eps map[string]string
 }
@@ -35,8 +34,10 @@ type Router struct {
 type Resolver struct{}
 
 var (
-	// The default endpoint
-	Endpoint = "http://localhost:9090"
+	// The default backend
+	DefaultBackend = "http://localhost:9090"
+	// The default router
+	DefaultRouter = &Router{}
 )
 
 // Foo.Bar becomes /foo/bar
@@ -54,66 +55,67 @@ func (p *Router) setup() {
 	if p.Resolver == nil {
 		p.Resolver = new(Resolver)
 	}
-	if p.Endpoint == "" {
-		p.Endpoint = Endpoint
+	if p.Backend == "" {
+		p.Backend = DefaultBackend
 	}
 	if p.eps == nil {
 		p.eps = map[string]string{}
 	}
 }
 
-// GetEndpoint returns the http endpoint for an rpc endpoint
-// GetEndpoint("Foo.Bar") returns /foo/bar
-func (p *Router) GetEndpoint(rpcEp string) (string, error) {
+// Endpoint returns the http endpoint for an rpc endpoint
+// Endpoint("Foo.Bar") returns /foo/bar
+func (p *Router) Endpoint(rpcEp string) (string, error) {
 	p.setup()
 
 	// get http endpoint
 	ep, ok := p.eps[rpcEp]
-	if ok {
+	if !ok {
+		// get default
+		ep = p.Resolver.Resolve(rpcEp)
+	}
+
+	// already full qualified URL
+	if strings.HasPrefix(ep, "http://") || strings.HasPrefix(ep, "https://") {
 		return ep, nil
 	}
 
-	// get default
-	ep = p.Resolver.Resolve(rpcEp)
+	// parse into url
 
 	// full path to call
-	u, err := url.Parse(p.Endpoint)
+	u, err := url.Parse(p.Backend)
 	if err != nil {
 		return "", err
 	}
 
 	// set path
-	u.Path = ep
+	u.Path = filepath.Join(u.Path, ep)
+
+	// set scheme
+	if len(u.Scheme) == 0 {
+		u.Scheme = "http"
+	}
+
+	// set host
+	if len(u.Host) == 0 {
+		u.Host = "localhost"
+	}
 
 	// create ep
 	return u.String(), nil
 }
 
-// RegisterEndpoint registers a http endpoint against an RPC endpoint
+// RegisterEndpoint registers a http endpoint against an RPC endpoint.
+// It converts relative paths into backend:endpoint. Anything prefixed
+// with http:// or https:// will be left as is.
 //	RegisterEndpoint("Foo.Bar", "/foo/bar")
 //	RegisterEndpoint("Greeter.Hello", "/helloworld")
 //	RegisterEndpoint("Greeter.Hello", "http://localhost:8080/")
-func (p *Router) RegisterEndpoint(rpcEp string, httpEp string) error {
+func (p *Router) RegisterEndpoint(rpcEp, httpEp string) error {
 	p.setup()
 
-	// register if already http
-	if strings.HasPrefix(httpEp, "http://") || strings.HasPrefix(httpEp, "https://") {
-		p.eps[rpcEp] = httpEp
-		return nil
-	}
-
-	// full path to call
-	u, err := url.Parse(p.Endpoint)
-	if err != nil {
-		return err
-	}
-
-	// set path
-	u.Path = httpEp
-
 	// create ep
-	p.eps[rpcEp] = u.String()
-
+	p.eps[rpcEp] = httpEp
 	return nil
 }
 
@@ -142,7 +144,7 @@ func (p *Router) ServeRequest(ctx context.Context, req server.Request, rsp serve
 		}
 
 		// get http endpoint
-		ep, err := p.GetEndpoint(rpcEp)
+		ep, err := p.Endpoint(rpcEp)
 		if err != nil {
 			return errors.NotFound(req.Service(), err.Error())
 		}
@@ -221,7 +223,7 @@ func (p *Router) ServeRequest(ctx context.Context, req server.Request, rsp serve
 func NewSingleHostRouter(url string) *Router {
 	return &Router{
 		Resolver: new(Resolver),
-		Endpoint: url,
+		Backend:  url,
 		eps:      map[string]string{},
 	}
 }
@@ -233,14 +235,34 @@ func NewSingleHostRouter(url string) *Router {
 //
 // 	service := NewProxy(
 //		micro.Name("greeter"),
-//		http.SetRouter(r),
-// 		// OR
-//		http.SetEndpoint("http://localhost:10001"),
+//		// Sets the default http endpoint
+//		http.SetBackend("http://localhost:10001"),
+//	 )
+//
+// Set fixed backend endpoints
+//
+//	// register an endpoint
+//	http.RegisterEndpoint("Hello.World", "/helloworld")
+//
+// 	service := NewProxy(
+//		micro.Name("greeter"),
+//		// Set the http endpoint
+//		http.SetBackend("http://localhost:10001"),
 //	 )
 func NewService(opts ...micro.Option) micro.Service {
 	// prepend router to opts
-	opts = append([]micro.Option{SetRouter(NewSingleHostRouter(Endpoint))}, opts...)
+	opts = append([]micro.Option{
+		SetRouter(DefaultRouter),
+	}, opts...)
 
 	// create the new service
 	return emicro.NewService(opts...)
+}
+
+// RegisterEndpoint registers a http endpoint against an RPC endpoint
+//	RegisterEndpoint("Foo.Bar", "/foo/bar")
+//	RegisterEndpoint("Greeter.Hello", "/helloworld")
+//	RegisterEndpoint("Greeter.Hello", "http://localhost:8080/")
+func RegisterEndpoint(rpcEp string, httpEp string) error {
+	return DefaultRouter.RegisterEndpoint(rpcEp, httpEp)
 }

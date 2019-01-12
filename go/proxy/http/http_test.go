@@ -106,7 +106,7 @@ func TestHTTPRouter(t *testing.T) {
 func TestHTTPRouterOptions(t *testing.T) {
 	// test endpoint
 	service := NewService(
-		SetEndpoint("http://foo.bar"),
+		SetBackend("http://foo.bar"),
 	)
 
 	r := service.Server().Options().Router
@@ -114,20 +114,20 @@ func TestHTTPRouterOptions(t *testing.T) {
 	if !ok {
 		t.Fatal("Expected http router to be installed")
 	}
-	if httpRouter.Endpoint != "http://foo.bar" {
-		t.Fatalf("Expected endpoint http://foo.bar got %v", httpRouter.Endpoint)
+	if httpRouter.Backend != "http://foo.bar" {
+		t.Fatalf("Expected endpoint http://foo.bar got %v", httpRouter.Backend)
 	}
 
 	// test router
 	service = NewService(
-		SetRouter(&Router{Endpoint: "http://foo2.bar"}),
+		SetRouter(&Router{Backend: "http://foo2.bar"}),
 	)
 	r = service.Server().Options().Router
 	httpRouter, ok = r.(*Router)
 	if !ok {
 		t.Fatal("Expected http router to be installed")
 	}
-	if httpRouter.Endpoint != "http://foo2.bar" {
-		t.Fatalf("Expected endpoint http://foo2.bar got %v", httpRouter.Endpoint)
+	if httpRouter.Backend != "http://foo2.bar" {
+		t.Fatalf("Expected endpoint http://foo2.bar got %v", httpRouter.Backend)
 	}
 }

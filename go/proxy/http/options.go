@@ -5,14 +5,14 @@ import (
 	"github.com/micro/go-micro/server"
 )
 
-// SetEndpoint provides an option to set the http backend url
-func SetEndpoint(url string) micro.Option {
+// SetBackend provides an option to set the http backend url
+func SetBackend(url string) micro.Option {
 	return func(o *micro.Options) {
 		// get the router
 		r := o.Server.Options().Router
 		// check its a http router
 		if httpRouter, ok := r.(*Router); ok {
-			httpRouter.Endpoint = url
+			httpRouter.Backend = url
 		}
 	}
 }
