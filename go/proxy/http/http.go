@@ -234,7 +234,7 @@ func NewSingleHostRouter(url string) *Router {
 //
 // Usage:
 //
-// 	service := NewProxy(
+// 	service := NewService(
 //		micro.Name("greeter"),
 //		// Sets the default http endpoint
 //		http.SetBackend("http://localhost:10001"),
@@ -245,7 +245,7 @@ func NewSingleHostRouter(url string) *Router {
 //	// register an endpoint
 //	http.RegisterEndpoint("Hello.World", "/helloworld")
 //
-// 	service := NewProxy(
+// 	service := NewService(
 //		micro.Name("greeter"),
 //		// Set the http endpoint
 //		http.SetBackend("http://localhost:10001"),
