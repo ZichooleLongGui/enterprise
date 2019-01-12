@@ -90,9 +90,9 @@ func (p *Router) GetEndpoint(rpcEp string) (string, error) {
 }
 
 // RegisterEndpoint registers a http endpoint against an RPC endpoint
-//	 RegisterEndpoint("Foo.Bar", "/foo/bar")
-//	 RegisterEndpoint("Greeter.Hello", "/helloworld")
-// 	RegisterEndpoint("Greeter.Hello", "http://localhost:8080/")
+//	RegisterEndpoint("Foo.Bar", "/foo/bar")
+//	RegisterEndpoint("Greeter.Hello", "/helloworld")
+//	RegisterEndpoint("Greeter.Hello", "http://localhost:8080/")
 func (p *Router) RegisterEndpoint(rpcEp string, httpEp string) error {
 	p.setup()
 
