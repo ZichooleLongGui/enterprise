@@ -110,7 +110,7 @@ func TestHTTPRouter(t *testing.T) {
 func TestHTTPRouterOptions(t *testing.T) {
 	// test endpoint
 	service := NewService(
-		SetBackend("http://foo.bar"),
+		WithBackend("http://foo.bar"),
 	)
 
 	r := service.Server().Options().Router
@@ -124,7 +124,7 @@ func TestHTTPRouterOptions(t *testing.T) {
 
 	// test router
 	service = NewService(
-		SetRouter(&Router{Backend: "http://foo2.bar"}),
+		WithRouter(&Router{Backend: "http://foo2.bar"}),
 	)
 	r = service.Server().Options().Router
 	httpRouter, ok = r.(*Router)

@@ -229,7 +229,7 @@ func NewSingleHostRouter(url string) *Router {
 }
 
 // NewService returns a new http proxy. It acts as a micro service and proxies to a http backend.
-// Routes are dynamically set e.g Foo.Bar routes to /foo/bar. The default backend is http://localhost:9090. 
+// Routes are dynamically set e.g Foo.Bar routes to /foo/bar. The default backend is http://localhost:9090.
 // Optionally specify the backend endpoint url or the router. Also choose to register specific endpoints.
 //
 // Usage:
@@ -237,7 +237,7 @@ func NewSingleHostRouter(url string) *Router {
 // 	service := NewService(
 //		micro.Name("greeter"),
 //		// Sets the default http endpoint
-//		http.SetBackend("http://localhost:10001"),
+//		http.WithBackend("http://localhost:10001"),
 //	 )
 //
 // Set fixed backend endpoints
@@ -248,12 +248,12 @@ func NewSingleHostRouter(url string) *Router {
 // 	service := NewService(
 //		micro.Name("greeter"),
 //		// Set the http endpoint
-//		http.SetBackend("http://localhost:10001"),
+//		http.WithBackend("http://localhost:10001"),
 //	 )
 func NewService(opts ...micro.Option) micro.Service {
 	// prepend router to opts
 	opts = append([]micro.Option{
-		SetRouter(DefaultRouter),
+		WithRouter(DefaultRouter),
 	}, opts...)
 
 	// create the new service
