@@ -1,4 +1,4 @@
-// Package http provides a go-micro to http proxy
+// Package http provides a micro to http proxy
 package http
 
 import (
@@ -197,7 +197,7 @@ func (p *Router) ServeRequest(ctx context.Context, req server.Request, rsp serve
 
 // NewSingleHostRouter returns a router which sends requests a single http backend
 //
-// It is used by setting it in a new go-micro to act as a proxy for a http backend.
+// It is used by setting it in a new micro service to act as a proxy for a http backend.
 //
 // Usage:
 //
