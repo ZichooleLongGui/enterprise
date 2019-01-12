@@ -63,8 +63,8 @@ func (p *Router) setup() {
 	}
 }
 
-// Endpoint returns the http endpoint for an rpc endpoint
-// Endpoint("Foo.Bar") returns /foo/bar
+// Endpoint returns the http endpoint for an rpc endpoint.
+// Endpoint("Foo.Bar") returns http://localhost:9090/foo/bar
 func (p *Router) Endpoint(rpcEp string) (string, error) {
 	p.setup()
 
