@@ -117,8 +117,6 @@ func (p *Router) RegisterEndpoint(rpcEp string, httpEp string) error {
 	return nil
 }
 
-func (p *Router) ServeHTTP(w http.ResponseWriter,
-
 // ServeRequest honours the server.Router interface
 func (p *Router) ServeRequest(ctx context.Context, req server.Request, rsp server.Response) error {
 	// rudimentary post based streaming
