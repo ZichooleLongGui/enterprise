@@ -29,7 +29,7 @@ the toolkit. Limit the access to the web dashboard or the api gateway easily.
 manage applications via messaging. This includes support for Discord, HipChat, Slack and Telegram.
 
 - **HTTP Proxying** - Micro is an RPC based system. It's most likely you have a multi-protocol architecture and one that heavily 
-relies on HTTP. We provide a simple RPC to HTTP service for proxying to http backends. Leverage the micro ecosystem for legacy apps.
+relies on HTTP. We provide a simple RPC to HTTP service for proxying to http backends. Leverage the micro ecosystem for any language.
 
 - secure by default: tls enabled
 - authentication: rbac and service-to-service
