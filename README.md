@@ -31,6 +31,7 @@ manage applications via messaging. This includes support for Discord, HipChat, S
 - **HTTP Proxying** - Micro is an RPC based system. It's most likely you have a multi-protocol architecture and one that heavily 
 relies on HTTP. We provide a simple RPC to HTTP service for proxying to http backends. Leverage the micro ecosystem for any language.
 
+TODO:
 - secure by default: tls enabled
 - authentication: rbac and service-to-service
 - central control plane
@@ -40,6 +41,7 @@ relies on HTTP. We provide a simple RPC to HTTP service for proxying to http bac
 - smart routing
 - instrumentation
 - performance tuned
+- zero dependency
 
 ## Pricing
 
