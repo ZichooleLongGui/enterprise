@@ -16,6 +16,9 @@ This version of Micro requires a [Micro Enterprise License Agreement](LICENSE) c
 
 Micro Enterprise builds on the all the features of the [Micro Toolkit](https://github.com/micro/micro) along with the following:
 
+- **Zero Dependency** - Simplified setup with zero external dependencies. There's no need for external service discovery or storage. 
+We handle everything internally. Just drop in the api or proxy and get started straight away. 
+
 - **Dynamic Config** - Load config from environment variables, flags and a config file, all integrated into one interface. Config is 
 merged, watched and reloaded as it changes. 
 
@@ -41,7 +44,6 @@ TODO:
 - smart routing
 - instrumentation
 - performance tuned
-- zero dependency
 
 ## Pricing
 
