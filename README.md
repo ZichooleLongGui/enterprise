@@ -19,6 +19,9 @@ Micro Enterprise builds on the all the features of the [Micro Toolkit](https://g
 - **Zero Dependency** - Simplified setup with zero external dependencies. There's no need for external service discovery or storage. 
 We handle everything internally. Just drop in the api or proxy and get started straight away. 
 
+- **ACME Certificates** - The API Gateway supports ACME TLS certificate management via Let's Encrypt. Simply enable support on the command 
+line and run on a secure port. No other configuration needed.
+
 - **Dynamic Config** - Load config from environment variables, flags and a config file, all integrated into one interface. Config is 
 merged, watched and reloaded as it changes. 
 
