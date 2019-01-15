@@ -34,6 +34,9 @@ manage applications via messaging. This includes support for Discord, HipChat, S
 - **HTTP Bridge** - Micro is an RPC based system. It's most likely you have a multi-protocol architecture and one that heavily 
 relies on HTTP. We provide a simple RPC to HTTP service for proxying to http backends. Leverage the micro ecosystem for any language.
 
+- **CORS Support** - The API Gateway, Web Dashboard and Service Proxy all support the addition of CORS control. This allows you to 
+define how Cross-Origin Resource Sharing is dealt with from one place. 
+
 TODO:
 - secure by default: tls enabled
 - authentication: rbac and service-to-service

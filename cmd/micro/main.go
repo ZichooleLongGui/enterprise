@@ -18,6 +18,7 @@ import (
 	// TODO: move to plugin dir
 	_ "github.com/micro/go-plugins/micro/bot/input/discord"
 	_ "github.com/micro/go-plugins/micro/bot/input/telegram"
+	"github.com/micro/go-plugins/micro/cors"
 )
 
 var (
@@ -42,6 +43,12 @@ func plugins() {
 
 	// register admin auth
 	if err := mp.Register(auth.NewPlugin()); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	// register cors plugin
+	if err := mp.Register(cors.NewPlugin()); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
