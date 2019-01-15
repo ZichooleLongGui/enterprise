@@ -40,7 +40,10 @@ relies on HTTP. We provide a simple RPC to HTTP service for proxying to http bac
 - **CORS Support** - The API Gateway, Web Dashboard and Service Proxy all support the addition of CORS control. This allows you to 
 define how Cross-Origin Resource Sharing is dealt with from one place. 
 
-TODO:
+## Roadmap
+
+Features to be integrated:
+
 - secure by default: tls enabled
 - authentication: rbac and service-to-service
 - central control plane
