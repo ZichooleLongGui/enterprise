@@ -50,6 +50,7 @@ TODO:
 - smart routing
 - instrumentation
 - performance tuned
+- global and federated routing
 
 ## Pricing
 
