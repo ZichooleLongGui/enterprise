@@ -44,16 +44,17 @@ define how Cross-Origin Resource Sharing is dealt with from one place.
 
 Features to be integrated:
 
-- secure by default: tls enabled
-- authentication: rbac and service-to-service
-- central control plane
-- circuit breaking
-- distributed tracing
-- rate limiting
-- smart routing
-- instrumentation
-- performance tuned
-- federated routing
+- secure by default: spifee based x509 identities and mutual tls
+- authentication: rbac service to service access control
+- central control plane: single location to manage acls, routing, etc
+- circuit breaking: fail fast when errors occur
+- rate limiting: limit thundering herd issues when things fail
+- smart routing: weighted and priority based routing
+- built in metrics: record and retrieve stats/debug info 
+- distributed tracing: understand the behaviour of requests
+- distributed logging: see what happened and when it happened
+- performance tuned: optimised from day 1 for high performance
+- federated routing: multi-dc networking with minimal config
 
 ## Pricing
 
