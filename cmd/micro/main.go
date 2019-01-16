@@ -12,6 +12,7 @@ import (
 	// enterprise plugins
 	"github.com/micro/enterprise/go/auth"
 	"github.com/micro/enterprise/go/license"
+	"github.com/micro/enterprise/go/metrics"
 	"github.com/micro/enterprise/go/plugin"
 	"github.com/micro/enterprise/go/token"
 
@@ -49,6 +50,12 @@ func plugins() {
 
 	// register cors plugin
 	if err := mp.Register(cors.NewPlugin()); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	// register metrics
+	if err := mp.Register(metrics.NewPlugin()); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
