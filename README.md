@@ -57,6 +57,8 @@ Features to be integrated:
 - distributed logging: see what happened and when it happened
 - performance tuned: optimised from day 1 for high performance
 - federated routing: multi-dc networking with minimal config
+- vault config source: integration with vault as a backend for config
+- encrypted config: storing/loading of encrypted config
 
 ## Pricing
 
