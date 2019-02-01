@@ -6,7 +6,7 @@ Micro Enterprise is a turn-key solution for building production ready microservi
 ## Overview
 
 Micro Enterprise is an enterprise version of the [micro](https://github.com/micro/micro) toolkit. It builds on the pluggable open source 
-toolkit and pre-packages the most useful plugins along with additiona features in a tried and tested single solution critical ready for production use.
+toolkit and pre-packages the most useful plugins along with additiona features in a tried and tested single solution ready for production use.
 
 <img src="https://micro.mu/micro-enterprise.svg" />
 
