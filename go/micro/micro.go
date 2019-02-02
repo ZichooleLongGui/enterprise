@@ -12,6 +12,7 @@ import (
 	"github.com/micro/cli"
 	"github.com/micro/enterprise/go/license"
 	"github.com/micro/enterprise/go/plugin"
+	"github.com/micro/go-grpc"
 	"github.com/micro/go-log"
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/broker"
@@ -133,7 +134,7 @@ func License(key string) micro.Option {
 
 // NewService returns a new enterprise Go Micro Service
 func NewService(opts ...micro.Option) micro.Service {
-	srv := micro.NewService(opts...)
+	srv := grpc.NewService(opts...)
 
 	// set plugin
 	app := srv.Options().Cmd.App()

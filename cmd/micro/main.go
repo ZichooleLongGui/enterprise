@@ -5,7 +5,10 @@ import (
 	"os"
 
 	"github.com/micro/cli"
+	"github.com/micro/go-micro/broker"
+	"github.com/micro/go-micro/client"
 	"github.com/micro/go-micro/cmd"
+	"github.com/micro/go-micro/server"
 	dmc "github.com/micro/micro/cmd"
 	mp "github.com/micro/micro/plugin"
 
@@ -20,6 +23,11 @@ import (
 	_ "github.com/micro/go-plugins/micro/bot/input/discord"
 	_ "github.com/micro/go-plugins/micro/bot/input/telegram"
 	"github.com/micro/go-plugins/micro/cors"
+
+	// grpc by default
+	gbkr "github.com/micro/go-plugins/broker/grpc"
+	gcli "github.com/micro/go-plugins/client/grpc"
+	gsrv "github.com/micro/go-plugins/server/grpc"
 )
 
 var (
@@ -59,6 +67,11 @@ func plugins() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+
+	// set grpc defaults
+	broker.DefaultBroker = gbkr.NewBroker()
+	client.DefaultClient = gcli.NewClient()
+	server.DefaultServer = gsrv.NewServer()
 }
 
 func commands(app *cli.App) {
