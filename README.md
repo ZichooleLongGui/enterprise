@@ -46,8 +46,8 @@ define how Cross-Origin Resource Sharing is dealt with from one place.
 
 Features to be integrated:
 
-- secure by default: spifee based x509 identities and mutual tls
-- authentication: rbac service to service access control
+- secure identity: spifee based x509 identities and mutual tls
+- authorization: rbac service to service access control
 - central control plane: single location to manage acls, routing, etc
 - circuit breaking: fail fast when errors occur
 - rate limiting: limit thundering herd issues when things fail
