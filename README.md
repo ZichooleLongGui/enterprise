@@ -6,7 +6,7 @@ Micro Enterprise is a turn-key solution for building production ready microservi
 ## Overview
 
 Micro Enterprise is an enterprise version of the [micro](https://github.com/micro/micro) toolkit. It builds on the pluggable open source 
-toolkit and pre-packages the most useful plugins along with additiona features in a tried and tested single solution critical ready for production use.
+toolkit and pre-packages the most useful plugins along with additiona features in a tried and tested single solution ready for production use.
 
 <img src="https://micro.mu/micro-enterprise.svg" />
 
@@ -46,8 +46,8 @@ define how Cross-Origin Resource Sharing is dealt with from one place.
 
 Features to be integrated:
 
-- secure by default: spifee based x509 identities and mutual tls
-- authentication: rbac service to service access control
+- secure identity: spifee based x509 identities and mutual tls
+- authorization: rbac service to service access control
 - central control plane: single location to manage acls, routing, etc
 - circuit breaking: fail fast when errors occur
 - rate limiting: limit thundering herd issues when things fail
