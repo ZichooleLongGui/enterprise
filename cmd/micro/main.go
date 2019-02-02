@@ -33,7 +33,7 @@ import (
 var (
 	name        = "micro"
 	description = "An enterprise microservice toolkit"
-	version     = "0.1.0"
+	version     = "0.2.0"
 )
 
 // TODO: move to plugin/ dir

@@ -35,10 +35,11 @@ require (
 	github.com/micro/examples v0.1.0 // indirect
 	github.com/micro/go-api v0.6.0 // indirect
 	github.com/micro/go-config v0.14.0
+	github.com/micro/go-grpc v0.9.0
 	github.com/micro/go-log v0.1.0
-	github.com/micro/go-micro v0.24.0
+	github.com/micro/go-micro v0.24.1
 	github.com/micro/go-plugins v0.22.0
-	github.com/micro/micro v0.22.0
+	github.com/micro/micro v0.22.1
 	github.com/microcosm-cc/bluemonday v1.0.2 // indirect
 	github.com/miekg/dns v1.1.4 // indirect
 	github.com/minio/highwayhash v0.0.0-20190131021015-02ca4b43caa3 // indirect
@@ -71,14 +72,19 @@ require (
 	github.com/tmc/grpc-websocket-proxy v0.0.0-20190109142713-0ad062ec5ee5 // indirect
 	github.com/ugorji/go/codec v0.0.0-20190128213124-ee1426cffec0 // indirect
 	go4.org v0.0.0-20181109185143-00e24f1b2599 // indirect
-	golang.org/x/build v0.0.0-20190131192101-cfd41133b82b // indirect
+	golang.org/x/build v0.0.0-20190201181641-63986c177d1f // indirect
 	golang.org/x/crypto v0.0.0-20190131182504-b8fe1690c613 // indirect
 	golang.org/x/exp v0.0.0-20190125153040-c74c464bbbf2 // indirect
 	golang.org/x/perf v0.0.0-20190124201629-844a5f5b46f4 // indirect
-	golang.org/x/tools v0.0.0-20190131163942-067a2f313b69 // indirect
+	golang.org/x/sys v0.0.0-20190201152629-afcc84fd7533 // indirect
+	golang.org/x/tools v0.0.0-20190202202610-718ddee9569a // indirect
+	google.golang.org/genproto v0.0.0-20190201180003-4b09977fb922 // indirect
 	gopkg.in/asn1-ber.v1 v1.0.0-20181015200546-f715ec2f112d // indirect
 	gopkg.in/ini.v1 v1.41.0 // indirect
 	gopkg.in/ldap.v3 v3.0.1
 	honnef.co/go/tools v0.0.0-20190128043916-71123fcbb8fe // indirect
+	k8s.io/api v0.0.0-20190202010521-49be0e3344fe // indirect
+	k8s.io/apimachinery v0.0.0-20190201131811-df262fa1a1ba // indirect
+	k8s.io/utils v0.0.0-20190131231213-4ae6e769426e // indirect
 	sourcegraph.com/sqs/pbtypes v1.0.0 // indirect
 )
