@@ -42,6 +42,8 @@ define how Cross-Origin Resource Sharing is dealt with from one place.
 
 - **Debug Metrics** - Includes support for debugging metrics and instrumentation using prometheus.
 
+- **GRPC Protocol** - GRPC is used as the default communication mechanism.
+
 ## Roadmap
 
 Features to be integrated:
